@@ -25,11 +25,11 @@ const NAV_ITEMS = [
     label: 'Discover our approach',
     href: '/discover-our-approach'
   },
-  {
-    id: 4,
-    label: 'Health Experts',
-    href: '/health-experts'
-  }
+  // {
+  //   id: 4,
+  //   label: 'Health Experts',
+  //   href: '/health-experts'
+  // }
 ]
 
 const Navbar = (props: Props) => {
@@ -44,7 +44,7 @@ const Navbar = (props: Props) => {
         <NavigationMenuList className='w-full justify-start px-4 py-2 gap-x-3'>
           {NAV_ITEMS.map((item, idx) => (
             <NavigationMenuItem key={idx}>
-              <Button variant='ghost' onClick={() => router.push(item.href)}>
+              <Button variant='ghost' onClick={() => router.push(item.href)} className='font-bold uppercase tracking-wide'>
                 {item.label}
               </Button>
             </NavigationMenuItem>

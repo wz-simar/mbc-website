@@ -77,13 +77,7 @@ export function DailyRecommendationsSection() {
                 key={item.title}
                 className="flex w-[180px] shrink-0 flex-col rounded-2xl border border-border/50 bg-white p-5 shadow-md md:w-[200px]"
               >
-                <div className="relative mb-4 size-14">
-                  <Image
-                    src={item.iconCircle}
-                    alt=""
-                    fill
-                    className="object-contain"
-                  />
+                <div className="relative mb-4 size-14 bg-sky-primary/10 rounded-full p-2">
                   <div className="absolute inset-0 flex items-center justify-center">
                     <Icon name={item.icon} size={22} />
                   </div>

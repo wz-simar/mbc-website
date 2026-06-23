@@ -30,11 +30,11 @@ export function CompanionCtaSection() {
             We Are Your Companion{" "}
             <span className="text-sky-primary">In Your Wellness</span> Journey
           </h2>
-          <p className="max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
+          <p className="max-w-xl text-base text-muted-foreground md:text-lg">
             Supporting your journey to better health through smart tracking,
             natural wisdom, expert guidance, and continuous support.
           </p>
-          <p className="max-w-xl text-base leading-relaxed text-sky-primary md:text-lg">
+          <p className="max-w-xl text-base text-sky-primary md:text-lg">
             &ldquo;We believe better health happens when modern intelligence
             meets ancient wisdom.&rdquo;
           </p>

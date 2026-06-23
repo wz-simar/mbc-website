@@ -1,113 +1,284 @@
-import { Container, SectionShell } from "@/components/ui/SectionShell";
-import { Icon } from "@/components/ui/Icon";
-import type { IconName } from "@/lib/icons";
+import { Container, SectionShell } from '@/components/ui/SectionShell'
+import { Icon } from '@/components/ui/Icon'
+import type { IconName } from '@/lib/icons'
+import { MoveDown } from 'lucide-react'
 
-import { SectionBadge } from "./SectionBadge";
+import { SectionBadge } from './SectionBadge'
 
 type Pillar = {
-  title: string;
-  description: string;
-  icon: IconName;
-  position: "tl" | "tr" | "bl" | "br";
-};
+  title: string
+  subtitle?: string
+  description: string
+  titleColor: string
+  side: 'left' | 'right'
+  icon: IconName
+  angle: number
+}
 
 const PILLARS: Pillar[] = [
   {
-    title: "Our Health Ring — SKY",
+    title: 'Our Health Ring — SKY',
     description:
-      "Understand what your body is telling you through smart tracking of your sleep, recovery, stress, activity and other important wellness indicators.",
-    icon: "scanner",
-    position: "tl",
+      'Understand what your body is telling you through smart tracking of your sleep, recovery, stress, activity and other important wellness indicators.',
+    titleColor: '#0056d2',
+    side: 'left',
+    icon: 'scanner',
+    angle: (7 * Math.PI) / 6
   },
   {
-    title: "AI Powered Insights",
+    title: 'AI Powered Insights',
     description:
-      "AI analyzes your data, finds meaningful patterns and gives actionable plans.",
-    icon: "brain",
-    position: "tr",
+      'AI analyzes your data, finds meaningful patterns and gives actionable plans.',
+    titleColor: '#40abff',
+    side: 'right',
+    icon: 'brain',
+    angle: -Math.PI / 6
   },
   {
-    title: "Health Experts",
+    title: 'Health Experts',
+    subtitle: '(Ayurveda + Naturopathy + Yoga + Lifestyle & Wellness)',
     description:
-      "Receive daily guidance from our natural health experts who help you understand your body's signals and support sustainable lifestyle changes through holistic approaches.",
-    icon: "flower-lotus-duotone",
-    position: "bl",
+      "Daily guidance from our natural health experts who help you understand your body's signals and support you in making sustainable lifestyle changes through natural and holistic approaches.",
+    titleColor: '#0891b2',
+    side: 'left',
+    icon: 'flower-lotus-duotone',
+    angle: (5 * Math.PI) / 6
   },
   {
-    title: "Accountability & Support",
+    title: 'Accountability & Support',
     description:
-      "Daily guidance, motivation and support to help you stay consistent and achieve results.",
-    icon: "community",
-    position: "br",
-  },
-];
+      'Daily guidance, motivation and support to help you stay consistent and achieve results.',
+    titleColor: '#0891b2',
+    side: 'right',
+    icon: 'community',
+    angle: Math.PI / 6
+  }
+]
 
-const POSITION_CLASSES: Record<Pillar["position"], string> = {
-  tl: "lg:col-start-1 lg:row-start-1",
-  tr: "lg:col-start-3 lg:row-start-1",
-  bl: "lg:col-start-1 lg:row-start-3",
-  br: "lg:col-start-3 lg:row-start-3",
-};
+const DIAGRAM_SIZE = 420
+const RING_RADIUS = 158
+const DIAGRAM_HEIGHT = DIAGRAM_SIZE + 48
+const CX = DIAGRAM_SIZE / 2
+const CY = DIAGRAM_SIZE / 2
 
-function PillarCard({ title, description, icon, position }: Pillar) {
+const DIAGRAM_WIDTH = 420
+const LAYOUT_MAX_WIDTH = 960
+const ICON_BUBBLE_RADIUS = 35
+const HORIZONTAL_CARD_GAP = 40
+const ICON_CARD_GAP = 4
+
+function getRingNodeTopPercent (angle: number) {
+  const y = CY + RING_RADIUS * Math.sin(angle)
+  return (y / DIAGRAM_SIZE) * 100
+}
+
+function getIconLayoutLeftPercent (angle: number) {
+  const x = CX + RING_RADIUS * Math.cos(angle)
+  const diagramOffset = (LAYOUT_MAX_WIDTH - DIAGRAM_WIDTH) / 2
+  const iconX = diagramOffset + (x / DIAGRAM_SIZE) * DIAGRAM_WIDTH
+
+  return (iconX / LAYOUT_MAX_WIDTH) * 100
+}
+
+function getRingNodePosition (angle: number) {
+  const x = CX + RING_RADIUS * Math.cos(angle)
+
+  return {
+    left: `${(x / DIAGRAM_SIZE) * 100}%`,
+    top: `${getRingNodeTopPercent(angle)}%`
+  }
+}
+
+function getPillarCardStyle (pillar: Pillar) {
+  const topPercent = getRingNodeTopPercent(pillar.angle)
+  const leftPercent = getIconLayoutLeftPercent(pillar.angle)
+  const isUpper = Math.sin(pillar.angle) < 0
+  const verticalOffset = isUpper ? '-58%' : '-42%'
+  const horizontalOffset =
+    pillar.side === 'left'
+      ? `calc(-100% - ${ICON_BUBBLE_RADIUS + HORIZONTAL_CARD_GAP}px)`
+      : `${ICON_BUBBLE_RADIUS + HORIZONTAL_CARD_GAP}px`
+
+  return {
+    left: `${leftPercent}%`,
+    top: `${topPercent}%`,
+    transform: `translate(${horizontalOffset}, calc(${verticalOffset} + ${ICON_CARD_GAP}px))`
+  }
+}
+
+function PillarCard ({
+  title,
+  subtitle,
+  description,
+  titleColor
+}: Omit<Pillar, 'side' | 'icon' | 'angle'>) {
   return (
-    <article
-      className={`rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5 md:p-7 ${POSITION_CLASSES[position]}`}
-    >
-      <div className="mb-4 flex size-14 items-center justify-center rounded-full bg-sky-primary/10">
-        <Icon name={icon} size={28} />
-      </div>
-      <h3 className="mb-3 text-xl font-bold leading-snug text-[#0c2340]">
+    <article className='max-w-sm rounded-2xl bg-white p-3 shadow-sm ring-1 ring-black/6 md:p-4'>
+      <h3
+        className='mb-3 text-lg font-bold leading-snug md:text-xl'
+        style={{ color: titleColor }}
+      >
         {title}
+        {subtitle ? (
+          <>
+            {' '}
+            <span className='text-base md:text-lg'>{subtitle}</span>
+          </>
+        ) : null}
       </h3>
-      <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
+      <p className='text-sm leading-relaxed text-black md:text-[15px]'>
         {description}
       </p>
     </article>
-  );
+  )
 }
 
-export function EcosystemSection() {
+function EcosystemDiagram ({ showCards = false }: { showCards?: boolean }) {
   return (
-    <SectionShell id="ecosystem" className="full-bleed bg-white py-16 md:py-24">
+    <div
+      className='relative mx-auto w-full overflow-visible'
+      style={{ maxWidth: LAYOUT_MAX_WIDTH, height: DIAGRAM_HEIGHT }}
+    >
+      <div
+        className='absolute left-1/2 top-0 -translate-x-1/2'
+        style={{ width: DIAGRAM_WIDTH, height: DIAGRAM_HEIGHT }}
+      >
+        <svg
+          viewBox={`0 0 ${DIAGRAM_SIZE} ${DIAGRAM_SIZE}`}
+          className='size-full'
+          aria-hidden
+        >
+          <defs>
+            <linearGradient
+              id='ecosystem-ring-gradient'
+              x1='0'
+              y1={CY}
+              x2={DIAGRAM_SIZE}
+              y2={CY}
+              gradientUnits='userSpaceOnUse'
+            >
+              <stop offset='0%' stopColor='#40abff' />
+              <stop offset='50%' stopColor='#40abff' />
+              <stop offset='50%' stopColor='#2dd4bf' />
+              <stop offset='100%' stopColor='#2dd4bf' />
+            </linearGradient>
+          </defs>
+          <circle
+            cx={CX}
+            cy={CY}
+            r={RING_RADIUS}
+            fill='none'
+            stroke='url(#ecosystem-ring-gradient)'
+            strokeWidth='12'
+            strokeOpacity='0.45'
+          />
+          <circle
+            cx={CX}
+            cy={CY - RING_RADIUS}
+            r={5}
+            fill='#40abff'
+            opacity='0.45'
+          />
+        </svg>
+
+        <div className='absolute left-1/2 top-1/2 flex flex-col -translate-x-1/2 -translate-y-1/2 items-center justify-center'>
+          <div className='rounded-full bg-white p-5 shadow-md ring-1 ring-black/6'>
+            <Icon name='user-rounded' size={52} />
+          </div>
+            <div className='text-sm font-bold pt-5'>Your Wellness Journey</div>
+          
+        </div>
+
+        {PILLARS.map(pillar => {
+          const position = getRingNodePosition(pillar.angle)
+
+          return (
+            <div
+              key={pillar.icon}
+              className='absolute flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white p-5 shadow-md ring-1 ring-black/6'
+              style={position}
+            >
+              <Icon name={pillar.icon} size={30} />
+            </div>
+          )
+        })}
+
+        <div
+          className='absolute left-1/2 -translate-x-1/2'
+          style={{ top: `${((CY + RING_RADIUS + 6) / DIAGRAM_SIZE) * 100}%` }}
+        >
+          <MoveDown
+            size={40}
+            className='opacity-70'
+            style={{
+              filter:
+                'brightness(0) saturate(100%) invert(56%) sepia(89%) saturate(450%) hue-rotate(145deg) brightness(95%) contrast(101%)'
+            }}
+          />
+        </div>
+      </div>
+
+      {showCards
+        ? PILLARS.map(pillar => (
+            <div
+              key={pillar.title}
+              className='absolute'
+              style={getPillarCardStyle(pillar)}
+            >
+              <PillarCard {...pillar} />
+            </div>
+          ))
+        : null}
+    </div>
+  )
+}
+
+function FooterBadge () {
+  return (
+    <div className='inline-flex items-center gap-2.5 rounded-full bg-[#E9F9FD] px-5 py-3 shadow-sm ring-1 ring-sky-primary/10 md:gap-3 md:px-6 md:py-3.5'>
+      <Icon name='heartbeat' size={24} className='text-[#3A6CD6]' />
+      <span className='text-sm font-bold uppercase tracking-wide text-sky-primary md:text-base'>
+        Better Health, Every Day
+      </span>
+    </div>
+  )
+}
+
+export function EcosystemSection () {
+  return (
+    <SectionShell id='ecosystem' className='full-bleed bg-white py-16 md:py-24'>
       <Container>
-        <div className="mb-12 flex flex-col items-center gap-4 text-center md:mb-16">
-          <SectionBadge>How ByeBimari Works</SectionBadge>
-          <h2 className="max-w-3xl text-3xl font-bold leading-tight text-[#0c2340] md:text-4xl lg:text-[42px]">
+        <div className='flex flex-col items-center gap-4 text-center'>
+          <SectionBadge className='border-sky-primary/15 bg-[#eef6ff]'>
+            How ByeBimari Works
+          </SectionBadge>
+          <h2 className='max-w-3xl text-3xl font-bold leading-tight text-[#0c2340] md:text-4xl lg:text-[42px]'>
             One Ecosystem. Four Powerful Pillars
           </h2>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-3 lg:grid-rows-3 lg:gap-8">
-          {PILLARS.map((pillar) => (
-            <PillarCard key={pillar.title} {...pillar} />
-          ))}
-
-          <div className="relative flex items-center justify-center lg:col-start-2 lg:row-start-2">
-            <div
-              className="absolute inset-0 m-auto size-[min(100%,420px)] rounded-full border border-sky-primary/10 bg-gradient-to-br from-[#eef6ff] to-white"
-              aria-hidden
-            />
-            <div className="relative z-10 flex size-40 flex-col items-center justify-center rounded-full bg-white shadow-lg ring-1 ring-sky-primary/15 md:size-52">
-              <div className="mb-2 flex size-20 items-center justify-center rounded-full bg-sky-primary/10 md:size-24">
-                <Icon name="user-rounded" size={40} />
-              </div>
-              <p className="px-4 text-center text-xs font-semibold uppercase tracking-wide text-sky-primary md:text-sm">
-                You at the center
-              </p>
-            </div>
+        <div className='hidden lg:flex lg:flex-col lg:items-center'>
+          <EcosystemDiagram showCards />
+          <div className='-mt-2'>
+            <FooterBadge />
           </div>
         </div>
 
-        <div className="mt-12 flex justify-center md:mt-16">
-          <div className="inline-flex items-center gap-3 rounded-full bg-[#eef6ff] px-6 py-3.5 shadow-sm ring-1 ring-sky-primary/10">
-            <Icon name="heartbeat" size={28} />
-            <span className="text-base font-bold uppercase tracking-wide text-[#0c2340] md:text-lg">
-              Better Health, Every Day
-            </span>
+        <div className='flex flex-col items-center gap-10 lg:hidden'>
+          <div className='flex flex-col items-center'>
+            <EcosystemDiagram />
+            <div className='-mt-2'>
+              <FooterBadge />
+            </div>
+          </div>
+
+          <div className='grid w-full max-w-xl gap-5 sm:grid-cols-2'>
+            {PILLARS.map(pillar => (
+              <PillarCard key={pillar.title} {...pillar} />
+            ))}
           </div>
         </div>
       </Container>
     </SectionShell>
-  );
+  )
 }

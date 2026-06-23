@@ -17,13 +17,16 @@ const BLOG_POSTS = [
 ] as const
 
 const CONTACT_ITEMS = [
-  { text: '44 Danwers,  NY City, USA, 70-102', icon: 'location' as const },
+  {
+    text: 'Iconic Corenthum, Tower C, 5th Floor, Sector-62, Noida, UP, 201309',
+    icon: 'location' as const
+  },
   {
     text: 'lamaro@lamaroyc.us',
     href: 'mailto:lamaro@lamaroyc.us',
     icon: 'email' as const
   },
-  { text: '91+585-656-658', href: 'tel:+91585656658', icon: 'phone' as const }
+  { text: '9899982868', href: 'tel:+919899982868', icon: 'phone' as const }
 ] as const
 
 const SOCIAL_LINKS = [
@@ -238,7 +241,7 @@ export function Footer () {
   return (
     <footer className='bg-white text-foreground'>
       <div className='mx-auto w-full max-w-[1440px] px-6 py-12 md:px-[98px] xl:px-[143px] xl:py-[78px]'>
-        <div className='grid gap-10 sm:grid-cols-2 xl:grid-cols-[306px_224px_336px_1fr] xl:gap-x-[30px] xl:gap-y-0'>
+        <div className='grid gap-10 sm:grid-cols-2 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,0.75fr)_minmax(0,1fr)_minmax(380px,1.6fr)] xl:gap-x-[30px] xl:gap-y-0'>
           <BrandColumn />
           <QuickLinksColumn />
           <BlogColumn />

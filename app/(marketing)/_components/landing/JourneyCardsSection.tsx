@@ -30,6 +30,7 @@ type JourneyCard = {
   href: string;
   visual: CardVisualType;
   theme: CardTheme;
+  arrow?: boolean;
 };
 
 const CARDS: JourneyCard[] = [
@@ -48,6 +49,7 @@ const CARDS: JourneyCard[] = [
       button: "#0056d2",
       buttonHover: "#0044a8",
     },
+    arrow: true,
   },
   {
     number: "02",
@@ -64,6 +66,7 @@ const CARDS: JourneyCard[] = [
       button: "#0c2340",
       buttonHover: "#001a5c",
     },
+    arrow: true,
   },
   {
     number: "03",
@@ -80,6 +83,7 @@ const CARDS: JourneyCard[] = [
       button: "#22c55e",
       buttonHover: "#16a34a",
     },
+    arrow: true,
   },
   {
     number: "04",
@@ -96,6 +100,7 @@ const CARDS: JourneyCard[] = [
       button: "#0c2340",
       buttonHover: "#001a5c",
     },
+    arrow: false,
   },
 ];
 
@@ -237,10 +242,12 @@ function CardButton({
   href,
   label,
   theme,
+  arrow = true,
 }: {
   href: string;
   label: string;
   theme: CardTheme;
+  arrow?: boolean;
 }) {
   return (
     <Link
@@ -254,7 +261,7 @@ function CardButton({
       }
     >
       {label}
-      <Icon name="arrow-right" size={16} className="brightness-0 invert" />
+      {arrow ? <Icon name="arrow-right" size={16} className="brightness-0 invert" /> : null}
     </Link>
   );
 }
@@ -295,7 +302,7 @@ export function JourneyCardsSection() {
                 <CardVisual type={card.visual} />
               </div>
 
-              <CardButton href={card.href} label={card.cta} theme={card.theme} />
+              <CardButton href={card.href} label={card.cta} theme={card.theme} arrow={card.arrow}/>
             </article>
           ))}
         </div>

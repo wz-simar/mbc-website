@@ -101,7 +101,7 @@ function MiniChart({ type, accent }: { type: TrendCard["chart"]; accent: string 
 
 export function WeeklyTrendsSection() {
   return (
-    <SectionShell id="weekly-trends" className="bg-white py-14 md:py-20">
+    <SectionShell id="weekly-trends" className="bg-white py-10">
       <Container>
         <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
           <div className="flex flex-col gap-4 lg:sticky lg:top-24">

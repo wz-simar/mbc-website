@@ -1,174 +1,129 @@
-import Image from "next/image";
+import Image from "next/image"
 
-import { Container, GradientText, SectionShell } from "@/components/ui/SectionShell";
-import { Icon } from "@/components/ui/Icon";
-import type { IconName } from "@/lib/icons";
+import { Container, SectionShell } from "@/components/ui/SectionShell"
+import { Icon } from "@/components/ui/Icon"
+import type { IconName } from "@/lib/icons"
+import { Sparkles } from "lucide-react"
 
-type InsightCard = {
-  title: string;
-  description: string;
-  icon: IconName;
-  accent: string;
-  avatar: string;
-};
+type FloatingCard = {
+  text: string
+  icon: IconName
+  cardClass: string
+  iconWrapClass: string
+}
 
-const INSIGHT_CARDS: InsightCard[] = [
+const LEFT_INSIGHTS: FloatingCard[] = [
   {
-    title: "Sleep Pattern Detected",
-    description: "You sleep best when you wind down by 10:30 PM.",
+    text: "You slept better last night",
     icon: "moon-sleep",
-    accent: "#0056D2",
-    avatar: "/images/sky/avatar-0.png",
+    cardClass: "bg-[#f3ecff]",
+    iconWrapClass: "bg-[#e9ddff] text-[#7c3aed]"
   },
   {
-    title: "Recovery Insight",
-    description: "Morning walks boost your recovery score by 8%.",
-    icon: "leaf",
-    accent: "#22C55E",
-    avatar: "/images/sky/avatar-1.png",
-  },
-];
+    text: "Stress is improving",
+    icon: "leaf-fill",
+    cardClass: "bg-[#ecfdf3]",
+    iconWrapClass: "bg-[#d1fae5] text-[#16a34a]"
+  }
+]
 
-const ACTION_CARDS = [
+const RIGHT_ACTIONS: FloatingCard[] = [
   {
-    title: "Take a 10-minute walk",
-    description: "Light movement helps lower afternoon stress.",
-    icon: "running" as const,
-    accent: "#F97316",
+    text: "Take a 10-minute walk",
+    icon: "running",
+    cardClass: "bg-[#fff7ed]",
+    iconWrapClass: "bg-[#ffedd5] text-[#ea580c]"
   },
   {
-    title: "Stay hydrated",
-    description: "Aim for 8 glasses of water today.",
-    icon: "waterdrop" as const,
-    accent: "#14B8A6",
+    text: "Stay hydrated",
+    icon: "waterdrop",
+    cardClass: "bg-[#eff6ff]",
+    iconWrapClass: "bg-[#dbeafe] text-[#2563eb]"
   },
   {
-    title: "Maintain bedtime routine",
-    description: "Consistent sleep times improve deep sleep.",
-    icon: "moon-sleep" as const,
-    accent: "#9333EA",
-  },
-];
+    text: "Maintain your bedtime routine",
+    icon: "moon-sleep",
+    cardClass: "bg-[#f5f3ff]",
+    iconWrapClass: "bg-[#ede9fe] text-[#7c3aed]"
+  }
+]
 
-export function PersonalizedInsightsSection() {
+function FloatingInsightCard ({ card }: { card: FloatingCard }) {
+  return (
+    <div
+      className={`flex items-center gap-3 rounded-2xl px-4 py-3.5 shadow-[0_8px_24px_rgba(15,23,42,0.08)] ${card.cardClass}`}
+    >
+      <span
+        className={`flex size-11 shrink-0 items-center justify-center rounded-full ${card.iconWrapClass}`}
+      >
+        <Icon name={card.icon} size={22} />
+      </span>
+      <p className="text-sm font-semibold leading-snug text-[#0c2340] md:text-base">
+        {card.text}
+      </p>
+    </div>
+  )
+}
+
+export function PersonalizedInsightsSection () {
   return (
     <SectionShell
       id="personalized-insights"
-      className="relative bg-gradient-to-b from-white to-[#f0f8ff] py-14 md:py-20"
+      className="bg-white py-14 md:py-20"
     >
-      <Icon
-        name="leaf"
-        size={80}
-        className="pointer-events-none absolute left-4 top-8 opacity-10 md:left-12"
-      />
-      <Icon
-        name="leaf-fill"
-        size={60}
-        className="pointer-events-none absolute bottom-8 right-4 rotate-45 opacity-10 md:right-12"
-      />
+      <Container>
+        <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] lg:gap-x-6 xl:gap-x-10">
+          <div className="flex flex-col gap-8 lg:gap-10">
+            <div>
+              <div className="mb-3 flex flex-wrap items-center gap-2">
+                <h2 className="text-3xl font-bold leading-tight text-[#0c2340] md:text-4xl lg:text-[42px]">
+                  <div className="flex items-center gap-2">
+                    <span>Personalized</span>
+                    <Sparkles name="star" size={20} className="text-sky-primary" />
+                  </div>
 
-      <Container className="relative z-10">
-        <div className="grid items-center gap-10 lg:grid-cols-[1fr_1.2fr_1fr] lg:gap-8">
-          <div className="flex flex-col gap-6">
-            <div className="flex items-center gap-2">
-              <Icon name="star" size={18} />
-              <Icon name="star" size={14} className="opacity-60" />
+                  <span className="text-sky-primary">Just For You</span>
+                </h2>
+                <span className="flex items-center gap-1">
+                  {/* <Icon
+                    name="star"
+                    size={14}
+                    className="text-sky-primary/70"
+                  /> */}
+                </span>
+              </div>
+              <p className="max-w-md text-base leading-relaxed text-muted-foreground md:text-lg">
+                AI analyzes your daily data and offers simple, practical
+                insights that fit your body and lifestyle.
+              </p>
             </div>
-            <h2 className="text-3xl font-bold leading-tight text-foreground md:text-4xl">
-              Personalized{" "}
-              <GradientText variant="insights" className="font-bold">
-                Just For You
-              </GradientText>
-            </h2>
-            <p className="text-base leading-relaxed text-muted-foreground">
-              SKY learns your unique patterns and delivers insights tailored to
-              your body, lifestyle, and goals — not generic averages.
-            </p>
 
-            <div className="relative flex flex-col gap-4 pt-4">
-              {INSIGHT_CARDS.map((card, index) => (
-                <div
-                  key={card.title}
-                  className={`flex gap-3 rounded-2xl border border-border/50 bg-white p-4 shadow-md ${index === 1 ? "md:ml-6" : ""}`}
-                >
-                  <div className="relative size-10 shrink-0 overflow-hidden rounded-full">
-                    <Image
-                      src={card.avatar}
-                      alt=""
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2">
-                      <Icon name={card.icon} size={16} />
-                      <p
-                        className="text-sm font-bold"
-                        style={{ color: card.accent }}
-                      >
-                        {card.title}
-                      </p>
-                    </div>
-                    <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                      {card.description}
-                    </p>
-                  </div>
-                </div>
+            <div className="flex flex-col gap-5 lg:gap-10 lg:py-6">
+              {LEFT_INSIGHTS.map(card => (
+                <FloatingInsightCard key={card.text} card={card} />
               ))}
             </div>
           </div>
 
-          <div className="relative mx-auto w-full max-w-[280px]">
-            <div className="relative aspect-[9/18] w-full">
-              <Image
-                src="/images/sky/phone-mockup.png"
-                alt="SKY app showing wellness score"
-                fill
-                className="object-contain drop-shadow-2xl"
-                sizes="280px"
-              />
-            </div>
-            <div className="absolute inset-x-0 top-[18%] mx-auto w-[55%] rounded-xl bg-[#0a1628]/90 p-3 text-center backdrop-blur-sm">
-              <p className="text-[10px] uppercase tracking-wider text-white/60">
-                Wellness Score
-              </p>
-              <p className="text-3xl font-bold text-white">85</p>
-              <p className="mt-1 text-[10px] text-[#22C55E]">Key Highlights</p>
-              <div className="mt-2 space-y-1 text-left text-[9px] text-white/70">
-                <p>• Sleep quality up 12%</p>
-                <p>• Recovery on track</p>
-                <p>• Stress manageable</p>
-              </div>
-            </div>
+          <div className="relative z-10 mx-auto w-full max-w-[300px] shrink-0 lg:max-w-[320px]">
+            <Image
+              src="/images/ai-insights/main-mock.png"
+              alt="SKY app AI Insights screen showing wellness score and key highlights"
+              width={3160}
+              height={5000}
+              className="h-auto w-full rounded-[2.75rem] "
+              sizes="(max-width: 1024px) 280px, 320px"
+              priority
+            />
           </div>
 
-          <div className="relative flex flex-col gap-6">
-            {ACTION_CARDS.map((card, index) => (
-              <div key={card.title} className="relative">
-                {index < ACTION_CARDS.length - 1 ? (
-                  <div className="absolute left-6 top-full hidden h-6 w-px bg-border lg:block" />
-                ) : null}
-                <div className="flex gap-4 rounded-2xl border border-border/50 bg-white p-5 shadow-md">
-                  <span
-                    className="flex size-12 shrink-0 items-center justify-center rounded-xl"
-                    style={{ backgroundColor: `${card.accent}20` }}
-                  >
-                    <Icon name={card.icon} size={22} />
-                  </span>
-                  <div>
-                    <h3 className="text-base font-bold text-foreground">
-                      {card.title}
-                    </h3>
-                    <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                      {card.description}
-                    </p>
-                  </div>
-                </div>
-              </div>
+          <div className="flex flex-col gap-5 lg:gap-10 lg:py-4">
+            {RIGHT_ACTIONS.map(card => (
+              <FloatingInsightCard key={card.text} card={card} />
             ))}
           </div>
         </div>
       </Container>
     </SectionShell>
-  );
+  )
 }
