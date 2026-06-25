@@ -110,50 +110,101 @@ function PillarCard ({
   title,
   subtitle,
   description,
-  titleColor
-}: Omit<Pillar, 'side' | 'icon' | 'angle'>) {
+  titleColor,
+  compact = false
+}: Omit<Pillar, 'side' | 'icon' | 'angle'> & { compact?: boolean }) {
   return (
-    <article className='max-w-sm rounded-2xl bg-white p-3 shadow-sm ring-1 ring-black/6 md:p-4'>
-      <div className='mb-2'>
+    <article
+      className={
+        compact
+          ? 'rounded-2xl border border-black/10 bg-white p-2.5'
+          : 'max-w-sm rounded-2xl bg-white p-3 shadow-sm ring-1 ring-black/6 md:p-4'
+      }
+    >
+      <div className={compact ? 'mb-1.5' : 'mb-2'}>
         <h3
-          className='text-lg font-bold leading-snug md:text-xl'
+          className={
+            compact
+              ? 'text-xs font-bold leading-snug sm:text-sm'
+              : 'text-lg font-bold leading-snug md:text-xl'
+          }
           style={{ color: titleColor }}
         >
           {title}
-        
         </h3>
         {subtitle ? (
-            <>
-              {' '}
-              <h2 className='font-bold'>{subtitle}</h2>
-            </>
-          ) : null}
+          <p
+            className={
+              compact
+                ? 'mt-0.5 text-[10px] font-semibold leading-snug text-emerald-600 sm:text-[11px]'
+                : 'font-bold'
+            }
+          >
+            {subtitle}
+          </p>
+        ) : null}
       </div>
-      <p className='text-sm leading-relaxed text-black md:text-[15px]'>
+      <p
+        className={
+          compact
+            ? 'text-[10px] leading-relaxed text-black/80 sm:text-[11px]'
+            : 'text-sm leading-relaxed text-black md:text-[15px]'
+        }
+      >
         {description}
       </p>
     </article>
   )
 }
 
-function EcosystemDiagram ({ showCards = false }: { showCards?: boolean }) {
+function EcosystemDiagram ({
+  showCards = false,
+  hideArrow = false,
+  gradientId = 'ecosystem-ring-gradient'
+}: {
+  showCards?: boolean
+  hideArrow?: boolean
+  gradientId?: string
+}) {
+  const centerIconSize = showCards ? 52 : 40
+  const nodeIconSize = showCards ? 30 : 24
+  const nodePadding = showCards ? 'p-5' : 'p-3'
+  const centerPadding = showCards ? 'p-5' : 'p-3.5'
+  const arrowSize = showCards ? 40 : 28
+
   return (
     <div
-      className='relative mx-auto w-full overflow-visible'
-      style={{ maxWidth: LAYOUT_MAX_WIDTH, height: DIAGRAM_HEIGHT }}
+      className={
+        showCards
+          ? 'relative mx-auto w-full overflow-visible'
+          : 'relative mx-auto aspect-420/468 w-full max-w-[360px] overflow-visible sm:max-w-[420px]'
+      }
+      style={
+        showCards
+          ? { maxWidth: LAYOUT_MAX_WIDTH, height: DIAGRAM_HEIGHT }
+          : undefined
+      }
     >
       <div
-        className='absolute left-1/2 top-0 -translate-x-1/2'
-        style={{ width: DIAGRAM_WIDTH, height: DIAGRAM_HEIGHT }}
+        className={
+          showCards
+            ? 'absolute left-1/2 top-0 -translate-x-1/2'
+            : 'absolute inset-0'
+        }
+        style={
+          showCards
+            ? { width: DIAGRAM_WIDTH, height: DIAGRAM_HEIGHT }
+            : undefined
+        }
       >
         <svg
           viewBox={`0 0 ${DIAGRAM_SIZE} ${DIAGRAM_SIZE}`}
-          className='size-full'
+          className='pointer-events-none size-full'
           aria-hidden
         >
           <defs>
             <linearGradient
-              id='ecosystem-ring-gradient'
+              id={gradientId}
               x1='0'
               y1={CY}
               x2={DIAGRAM_SIZE}
@@ -171,7 +222,7 @@ function EcosystemDiagram ({ showCards = false }: { showCards?: boolean }) {
             cy={CY}
             r={RING_RADIUS}
             fill='none'
-            stroke='url(#ecosystem-ring-gradient)'
+            stroke={`url(#${gradientId})`}
             strokeWidth='12'
             strokeOpacity='0.45'
           />
@@ -184,12 +235,17 @@ function EcosystemDiagram ({ showCards = false }: { showCards?: boolean }) {
           />
         </svg>
 
-        <div className='absolute left-1/2 top-1/2 flex flex-col -translate-x-1/2 -translate-y-1/2 items-center justify-center'>
-          <div className='rounded-full bg-white p-5 shadow-md ring-1 ring-black/6'>
-            <Icon name='user-rounded' size={52} />
+        <div className='absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center'>
+          <div
+            className={`rounded-full bg-white shadow-md ring-1 ring-black/6 ${centerPadding}`}
+          >
+            <Icon name='user-rounded' size={centerIconSize} />
           </div>
-          <div className='text-sm font-bold pt-5 flex items-center justify-center'>Your Wellness Journey</div>
-          
+          {showCards ? (
+            <div className='flex items-center justify-center pt-5 text-sm font-bold'>
+              Your Wellness Journey
+            </div>
+          ) : null}
         </div>
 
         {PILLARS.map(pillar => {
@@ -198,27 +254,29 @@ function EcosystemDiagram ({ showCards = false }: { showCards?: boolean }) {
           return (
             <div
               key={pillar.icon}
-              className='absolute flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white p-5 shadow-md ring-1 ring-black/6'
+              className={`absolute flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-md ring-1 ring-black/6 ${nodePadding}`}
               style={position}
             >
-              <Icon name={pillar.icon} size={30} />
+              <Icon name={pillar.icon} size={nodeIconSize} />
             </div>
           )
         })}
 
-        <div
-          className='absolute left-1/2 -translate-x-1/2'
-          style={{ top: `${((CY + RING_RADIUS + 6) / DIAGRAM_SIZE) * 100}%` }}
-        >
-          <MoveDown
-            size={40}
-            className='opacity-70'
-            style={{
-              filter:
-                'brightness(0) saturate(100%) invert(56%) sepia(89%) saturate(450%) hue-rotate(145deg) brightness(95%) contrast(101%)'
-            }}
-          />
-        </div>
+        {hideArrow ? null : (
+          <div
+            className='absolute left-1/2 -translate-x-1/2'
+            style={{ top: `${((CY + RING_RADIUS + 6) / DIAGRAM_SIZE) * 100}%` }}
+          >
+            <MoveDown
+              size={arrowSize}
+              className='opacity-70'
+              style={{
+                filter:
+                  'brightness(0) saturate(100%) invert(56%) sepia(89%) saturate(450%) hue-rotate(145deg) brightness(95%) contrast(101%)'
+              }}
+            />
+          </div>
+        )}
       </div>
 
       {showCards
@@ -247,6 +305,19 @@ function FooterBadge () {
   )
 }
 
+function MobileArrow () {
+  return (
+    <MoveDown
+      size={32}
+      className='opacity-70'
+      style={{
+        filter:
+          'brightness(0) saturate(100%) invert(56%) sepia(89%) saturate(450%) hue-rotate(145deg) brightness(95%) contrast(101%)'
+      }}
+    />
+  )
+}
+
 export function EcosystemSection () {
   return (
     <SectionShell id='ecosystem' className='full-bleed bg-white py-16 md:py-24'>
@@ -261,24 +332,37 @@ export function EcosystemSection () {
         </div>
 
         <div className='hidden lg:flex lg:flex-col lg:items-center'>
-          <EcosystemDiagram showCards />
+          <EcosystemDiagram showCards gradientId='ecosystem-ring-gradient-desktop' />
           <div className='-mt-2'>
             <FooterBadge />
           </div>
         </div>
 
-        <div className='flex flex-col items-center gap-10 lg:hidden'>
-          <div className='flex flex-col items-center'>
-            <EcosystemDiagram />
-            <div className='-mt-2'>
+        <div className='mt-10 flex flex-col items-center lg:hidden'>
+          <div className='relative w-full max-w-xl'>
+            <div className='relative z-0 grid grid-cols-2 gap-2.5 sm:gap-3'>
+              {PILLARS.slice(0, 2).map(pillar => (
+                <PillarCard key={pillar.title} compact {...pillar} />
+              ))}
+            </div>
+
+            <div className='pointer-events-none relative z-10 -my-14 sm:-my-16'>
+              <EcosystemDiagram
+                hideArrow
+                gradientId='ecosystem-ring-gradient-mobile'
+              />
+            </div>
+
+            <div className='relative z-0 grid grid-cols-2 gap-2.5 sm:gap-3'>
+              {PILLARS.slice(2, 4).map(pillar => (
+                <PillarCard key={pillar.title} compact {...pillar} />
+              ))}
+            </div>
+
+            <div className='mt-5 flex flex-col items-center gap-4'>
+              <MobileArrow />
               <FooterBadge />
             </div>
-          </div>
-
-          <div className='grid w-full max-w-xl gap-5 sm:grid-cols-2'>
-            {PILLARS.map(pillar => (
-              <PillarCard key={pillar.title} {...pillar} />
-            ))}
           </div>
         </div>
       </Container>

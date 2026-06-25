@@ -15,7 +15,7 @@ const AVATARS = [
 function HeroVisuals ({ className = '' }: { className?: string }) {
   return (
     <div
-      className={`relative mx-auto w-full max-w-[520px] sm:max-w-[600px] lg:mx-0 lg:ml-auto lg:mr-[-19px] lg:max-w-[763px] ${className}`}
+      className={`relative mx-auto w-full max-w-[520px] self-end sm:max-w-[600px] lg:mx-0 lg:ml-auto lg:mr-[-19px] lg:max-w-[763px] -mb-16 md:-mb-20 ${className}`}
     >
       {/* Figma canvas positions: mockup 598,317 (335×503), people 887,90 (474×711) */}
       <div className='relative aspect-763/730 w-full'>
@@ -24,7 +24,7 @@ function HeroVisuals ({ className = '' }: { className?: string }) {
           alt='Natural health experts guiding your wellness journey'
           width={474}
           height={711}
-          className='absolute right-0 top-0 h-[97.4%] w-[62.12%] object-contain object-top-right'
+          className='absolute bottom-0 right-0 h-[97.4%] w-[62.12%] object-contain object-bottom-right'
           priority
         />
         <Image
@@ -54,8 +54,8 @@ export function HeroSection () {
         priority
       />
 
-      <Container className='relative z-10 grid min-h-[640px] items-center gap-10 py-16 md:min-h-[702px] md:py-20 lg:grid-cols-[minmax(0,520px)_1fr] lg:gap-8'>
-        <div className='flex flex-col gap-6 md:gap-8'>
+      <Container className='relative z-10 grid min-h-[640px] items-center gap-10 py-16 md:min-h-[702px] md:py-20 lg:grid-cols-[minmax(0,520px)_1fr] lg:items-stretch lg:gap-8'>
+        <div className='flex flex-col gap-6 self-center md:gap-8'>
           <div>
             <SectionBadge className='border-sky-primary/25 bg-[#eef6ff] text-[#0c2340] shadow-none text-xs'>
               SKY RING POWERED WELLNESS
