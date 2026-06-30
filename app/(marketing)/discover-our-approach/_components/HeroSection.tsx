@@ -25,7 +25,7 @@ export function HeroSection() {
     >
       <div className="absolute inset-y-0 right-0 hidden w-[58%] max-w-[820px] lg:block">
         <Image
-          src="/images/discover-our-approach/hero/hero.png"
+          src="/images/discover-our-approach/hero/hero_two.jpeg"
           alt="Woman reviewing AI health insights on her phone"
           fill
           className="object-contain object-right"
@@ -69,7 +69,7 @@ export function HeroSection() {
 
         <div className="relative mt-8 w-full lg:hidden">
           <Image
-            src="/images/discover-our-approach/hero/hero.png"
+            src="/images/discover-our-approach/hero/hero_two.jpeg"
             alt="Discover our approach hero illustration"
             width={679}
             height={702}

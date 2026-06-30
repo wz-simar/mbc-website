@@ -1,70 +1,70 @@
-import type { ReactNode } from 'react'
+import type { ReactNode } from "react";
 
-import { FooterMaskedIcon } from '@/components/ui/FooterMaskedIcon'
+import { FooterMaskedIcon } from "@/components/ui/FooterMaskedIcon";
 
 // ---------------------------------------------------------------------------
 // Data
 // ---------------------------------------------------------------------------
 
 const BRAND_DESCRIPTION =
-  'The proper Footer on proper time can preserve you protection. We assist you make sureeverybody forward.'
+  "The proper Footer on proper time can preserve you protection. We assist you make sureeverybody forward.";
 
-const QUICK_LINKS = ['Home', 'About us', 'Services', 'Product'] as const
+const QUICK_LINKS = ["Home", "About us", "Services", "Product"] as const;
 
 const BLOG_POSTS = [
-  { title: 'People Saying About Footer.', date: '8 Nov, 2021' },
-  { title: 'People Saying About Footer.', date: '8 Nov, 2021' }
-] as const
+  { title: "People Saying About Footer.", date: "8 Nov, 2021" },
+  { title: "People Saying About Footer.", date: "8 Nov, 2021" },
+] as const;
 
 const CONTACT_ITEMS = [
   {
-    text: 'Iconic Corenthum, Tower C, 5th Floor, Sector-62, Noida, UP, 201309',
-    icon: 'location' as const
+    text: "Iconic Corenthum, Tower C, 5th Floor, Sector-62, Noida, UP, 201309",
+    icon: "location" as const,
   },
   {
-    text: 'lamaro@lamaroyc.us',
-    href: 'mailto:lamaro@lamaroyc.us',
-    icon: 'email' as const
+    text: "lamaro@lamaroyc.us",
+    href: "mailto:lamaro@lamaroyc.us",
+    icon: "email" as const,
   },
-] as const
+] as const;
 
 const SOCIAL_LINKS = [
-  { href: '#', icon: 'facebook' as const, label: 'Facebook' },
-  { href: '#', icon: 'twitter' as const, label: 'Twitter' },
-  { href: '#', icon: 'instagram' as const, label: 'Instagram' },
-  { href: '#', icon: 'youtube' as const, label: 'YouTube' }
-] as const
+  { href: "#", icon: "facebook" as const, label: "Facebook" },
+  { href: "#", icon: "twitter" as const, label: "Twitter" },
+  { href: "#", icon: "instagram" as const, label: "Instagram" },
+  { href: "#", icon: "youtube" as const, label: "YouTube" },
+] as const;
 
 const FOOTER_ICONS = {
-  chevron: '/images/footer/mask-chevron.png',
-  wave: '/images/footer/mask-wave.png',
-  location: '/images/footer/mask-location.png',
-  email: '/images/footer/mask-email.png',
-  phone: '/images/footer/mask-phone.png',
-  facebook: '/images/footer/social-facebook.png',
-  twitter: '/images/footer/social-twitter.png',
-  instagram: '/images/footer/social-instagram.png',
-  youtube: '/images/footer/social-youtube.png'
-} as const
+  chevron: "/images/footer/mask-chevron.png",
+  wave: "/images/footer/mask-wave.png",
+  location: "/images/footer/mask-location.png",
+  email: "/images/footer/mask-email.png",
+  phone: "/images/footer/mask-phone.png",
+  facebook: "/images/footer/social-facebook.png",
+  twitter: "/images/footer/social-twitter.png",
+  instagram: "/images/footer/social-instagram.png",
+  youtube: "/images/footer/social-youtube.png",
+} as const;
 
-type FooterIconName = keyof typeof FOOTER_ICONS
+type FooterIconName = keyof typeof FOOTER_ICONS;
 
 // ---------------------------------------------------------------------------
 // Styles
 // ---------------------------------------------------------------------------
 
-const footerTextClass = 'text-[16px] capitalize leading-normal text-foreground'
+const footerTextClass = "text-[16px] capitalize leading-normal text-foreground";
 const footerHeadingClass =
-  'text-[16px] font-medium capitalize leading-[13px] text-foreground'
-const contactRowClass = `${footerTextClass} inline-flex items-center gap-3.5 py-0.5`
+  "text-[16px] font-medium capitalize leading-[13px] text-foreground";
+const contactRowClass = `${footerTextClass} inline-flex items-center gap-3.5 py-0.5`;
 
 // ---------------------------------------------------------------------------
 // Primitives
 // ---------------------------------------------------------------------------
 
-function FooterWaveUnderline () {
+function FooterWaveUnderline() {
   return (
-    <div className='flex items-center'>
+    <div className="flex items-center">
       <FooterMaskedIcon
         src={FOOTER_ICONS.wave}
         size={7}
@@ -76,177 +76,187 @@ function FooterWaveUnderline () {
         style={{ width: 20, height: 7 }}
       />
     </div>
-  )
+  );
 }
 
-function FooterColumnHeading ({ children }: { children: ReactNode }) {
+function FooterColumnHeading({ children }: { children: ReactNode }) {
   return (
-    <div className='flex flex-col gap-1'>
+    <div className="flex flex-col gap-1">
       <p className={footerHeadingClass}>{children}</p>
       <FooterWaveUnderline />
     </div>
-  )
+  );
 }
 
-function FooterNavLink ({ children }: { children: ReactNode }) {
+function FooterNavLink({ children }: { children: ReactNode }) {
   return (
     <a
-      href='#'
+      href="#"
       className={`${footerTextClass} inline-flex items-center gap-1.5 leading-[13px] hover:text-foreground/70`}
     >
       <FooterMaskedIcon src={FOOTER_ICONS.chevron} size={13} rotate />
       {children}
     </a>
-  )
+  );
 }
 
-function BlogPostItem ({ title, date }: { title: string; date: string }) {
+function BlogPostItem({ title, date }: { title: string; date: string }) {
   return (
-    <div className='flex items-start gap-1.5'>
-      <div className='pt-1'>
+    <div className="flex items-start gap-1.5">
+      <div className="pt-1">
         <FooterMaskedIcon src={FOOTER_ICONS.chevron} size={15} rotate />
       </div>
       <div>
         <p className={`${footerTextClass} font-medium`}>{title}</p>
-        <p className='mt-1 text-[13px] leading-[13px] text-muted-foreground'>
+        <p className="mt-1 text-[13px] leading-[13px] text-muted-foreground">
           {date}
         </p>
       </div>
     </div>
-  )
+  );
 }
 
-function SocialIcon ({
+function SocialIcon({
   href,
   icon,
-  label
+  label,
 }: {
-  href: string
-  icon: Extract<FooterIconName, 'facebook' | 'twitter' | 'instagram' | 'youtube'>
-  label: string
+  href: string;
+  icon: Extract<
+    FooterIconName,
+    "facebook" | "twitter" | "instagram" | "youtube"
+  >;
+  label: string;
 }) {
   return (
     <a
       href={href}
       aria-label={label}
-      className='inline-flex size-[35px] items-center justify-center rounded-full bg-[#f5f5f5]'
+      className="inline-flex size-[35px] items-center justify-center rounded-full bg-[#f5f5f5]"
     >
       <img
         src={FOOTER_ICONS[icon]}
-        alt=''
+        alt=""
         width={15}
         height={15}
-        className='size-[15px]'
+        className="size-[15px]"
       />
     </a>
-  )
+  );
 }
 
-function ContactRow ({
+function ContactRow({
   text,
   href,
-  icon
+  icon,
 }: {
-  text: string
-  href?: string
-  icon: Extract<FooterIconName, 'location' | 'email' | 'phone'>
+  text: string;
+  href?: string;
+  icon: Extract<FooterIconName, "location" | "email" | "phone">;
 }) {
   const content = (
     <>
       <FooterMaskedIcon src={FOOTER_ICONS[icon]} size={25} />
       {text}
     </>
-  )
+  );
 
   if (href) {
     return (
       <a href={href} className={`${contactRowClass} hover:text-foreground/70`}>
         {content}
       </a>
-    )
+    );
   }
 
-  return <span className={contactRowClass}>{content}</span>
+  return <span className={contactRowClass}>{content}</span>;
 }
 
 // ---------------------------------------------------------------------------
 // Columns
 // ---------------------------------------------------------------------------
 
-function BrandColumn () {
+function BrandColumn() {
   return (
     <div>
-      <p className={footerHeadingClass}>Logo</p>
-      <p className='mt-6 text-[16px] font-light leading-[30px] text-foreground'>
+      {/* <p className={footerHeadingClass}>Logo</p> */}
+      <img
+        src="/images/sky/logo.png"
+        alt="Logo"
+        width={15}
+        height={15}
+        className="size-[130px]"
+      />
+      {/* <p className=" text-[16px] font-light leading-[30px] text-foreground">
         {BRAND_DESCRIPTION}
-      </p>
-      <div className='mt-5 flex gap-5'>
-        {SOCIAL_LINKS.map(social => (
+      </p> */}
+      <div className="mt-5 flex gap-5">
+        {SOCIAL_LINKS.map((social) => (
           <SocialIcon key={social.label} {...social} />
         ))}
       </div>
     </div>
-  )
+  );
 }
 
-function QuickLinksColumn () {
+function QuickLinksColumn() {
   return (
     <div>
       <FooterColumnHeading>Quick link</FooterColumnHeading>
-      <ul className='mt-5 flex flex-col gap-3'>
-        {QUICK_LINKS.map(link => (
+      <ul className="mt-5 flex flex-col gap-3">
+        {QUICK_LINKS.map((link) => (
           <li key={link}>
             <FooterNavLink>{link}</FooterNavLink>
           </li>
         ))}
       </ul>
     </div>
-  )
+  );
 }
 
-function BlogColumn () {
+function BlogColumn() {
   return (
     <div>
       <FooterColumnHeading>Blog</FooterColumnHeading>
-      <div className='mt-5 flex flex-col gap-4'>
+      <div className="mt-5 flex flex-col gap-4">
         {BLOG_POSTS.map((post, index) => (
           <BlogPostItem key={`${post.date}-${index}`} {...post} />
         ))}
       </div>
     </div>
-  )
+  );
 }
 
-function ContactColumn ({ className = '' }: { className?: string }) {
+function ContactColumn({ className = "" }: { className?: string }) {
   return (
     <div className={className}>
       <FooterColumnHeading>Contact</FooterColumnHeading>
-      <ul className='mt-5 flex flex-col gap-5'>
-        {CONTACT_ITEMS.map(item => (
+      <ul className="mt-5 flex flex-col gap-5">
+        {CONTACT_ITEMS.map((item) => (
           <li key={item.text}>
             <ContactRow {...item} />
           </li>
         ))}
       </ul>
     </div>
-  )
+  );
 }
 
 // ---------------------------------------------------------------------------
 // Footer
 // ---------------------------------------------------------------------------
 
-export function Footer () {
+export function Footer() {
   return (
-    <footer className='bg-white text-foreground'>
-      <div className='mx-auto w-full max-w-[1440px] px-6 py-12 md:px-[98px] xl:px-[143px] xl:py-[78px]'>
-        <div className='grid gap-10 sm:grid-cols-2 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,0.75fr)_minmax(0,1fr)_minmax(380px,1.6fr)] xl:gap-x-[30px] xl:gap-y-0'>
+    <footer className="bg-white text-foreground">
+      <div className="mx-auto w-full max-w-[1440px] px-6 py-12 md:px-[98px] xl:px-[143px] xl:py-[78px]">
+        <div className="grid gap-10 sm:grid-cols-2 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,0.75fr)_minmax(0,1fr)_minmax(380px,1.6fr)] xl:gap-x-[30px] xl:gap-y-0">
           <BrandColumn />
           <QuickLinksColumn />
-          <BlogColumn />
-          <ContactColumn className='sm:col-span-2 xl:col-span-1 xl:pt-2' />
+          {/* <BlogColumn /> */}
+          <ContactColumn className="sm:col-span-2 xl:col-span-1 xl:pt-2" />
         </div>
       </div>
     </footer>
-  )
+  );
 }

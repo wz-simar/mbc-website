@@ -1,13 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
-import {
-  BarChart3,
-  Check,
-  Compass,
-  Heart,
-  UserRound,
-} from "lucide-react";
+import { BarChart3, Check, Compass, Heart, UserRound } from "lucide-react";
 
 import { Container, SectionShell } from "@/components/ui/SectionShell";
 import { Icon } from "@/components/ui/Icon";
@@ -40,7 +34,7 @@ const CARDS: JourneyCard[] = [
     description:
       "Our smart ring tracks what matters most so you can understand your body better.",
     cta: "Discover Sky",
-    href: "/",
+    href: "/meet-the-sky",
     visual: "ring",
     theme: {
       bg: "#eef5ff",
@@ -172,7 +166,9 @@ function AiInsightsVisual() {
       </div>
 
       <div className="mt-3 rounded-xl bg-[#f8fafc] px-3 py-2.5">
-        <p className="text-xs font-medium text-[#475569]">Stress is improving</p>
+        <p className="text-xs font-medium text-[#475569]">
+          Stress is improving
+        </p>
         <svg viewBox="0 0 120 28" className="mt-1.5 h-7 w-full" aria-hidden>
           <polyline
             fill="none"
@@ -261,7 +257,9 @@ function CardButton({
       }
     >
       {label}
-      {arrow ? <Icon name="arrow-right" size={16} className="brightness-0 invert" /> : null}
+      {arrow ? (
+        <Icon name="arrow-right" size={16} className="brightness-0 invert" />
+      ) : null}
     </Link>
   );
 }
@@ -302,7 +300,12 @@ export function JourneyCardsSection() {
                 <CardVisual type={card.visual} />
               </div>
 
-              <CardButton href={card.href} label={card.cta} theme={card.theme} arrow={card.arrow}/>
+              <CardButton
+                href={card.href}
+                label={card.cta}
+                theme={card.theme}
+                arrow={card.arrow}
+              />
             </article>
           ))}
         </div>

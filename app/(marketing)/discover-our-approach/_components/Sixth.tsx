@@ -15,7 +15,7 @@ const Sixth = () => {
         <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
           <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl lg:aspect-[5/4]">
             <Image
-              src="/images/discover-our-approach-new/sixth.png"
+              src="/images/discover-our-approach-new/sixth_two.jpeg"
               alt="Lush green wellness landscape representing a connected health ecosystem"
               fill
               className="object-cover object-center"
@@ -36,8 +36,8 @@ const Sixth = () => {
               </p>
               <p>
                 ByBimari builds a true wellness ecosystem by connecting your
-                sleep, stress, recovery, nutrition, and movement into one unified
-                view.
+                sleep, stress, recovery, nutrition, and movement into one
+                unified view.
               </p>
             </div>
 
