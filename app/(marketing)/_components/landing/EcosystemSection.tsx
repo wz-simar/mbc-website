@@ -1,5 +1,5 @@
-import { Container, SectionShell } from "@/components/ui/SectionShell";
 import { Icon } from "@/components/ui/Icon";
+import { Container, SectionShell } from "@/components/ui/SectionShell";
 import type { IconName } from "@/lib/icons";
 import { MoveDown } from "lucide-react";
 
@@ -59,14 +59,18 @@ const PILLARS: Pillar[] = [
 const DIAGRAM_SIZE = 420;
 const RING_RADIUS = 158;
 const DIAGRAM_HEIGHT = DIAGRAM_SIZE + 48;
+const DIAGRAM_VERTICAL_PADDING = 72;
 const CX = DIAGRAM_SIZE / 2;
 const CY = DIAGRAM_SIZE / 2;
 
 const DIAGRAM_WIDTH = 420;
 const LAYOUT_MAX_WIDTH = 960;
 const ICON_BUBBLE_RADIUS = 35;
-const HORIZONTAL_CARD_GAP = 40;
+const HORIZONTAL_CARD_GAP = 36;
 const ICON_CARD_GAP = 4;
+const PILLAR_CARD_WIDTH = 272;
+const PILLAR_CARD_HEIGHT = 236;
+const LAYOUT_HEIGHT = DIAGRAM_HEIGHT + DIAGRAM_VERTICAL_PADDING * 2;
 
 function getRingNodeTopPercent(angle: number) {
   const y = CY + RING_RADIUS * Math.sin(angle);
@@ -91,10 +95,13 @@ function getRingNodePosition(angle: number) {
 }
 
 function getPillarCardStyle(pillar: Pillar) {
-  const topPercent = getRingNodeTopPercent(pillar.angle);
+  const nodeTopPercent = getRingNodeTopPercent(pillar.angle);
+  const anchorY =
+    DIAGRAM_VERTICAL_PADDING + (nodeTopPercent / 100) * DIAGRAM_HEIGHT;
+  const topPercent = (anchorY / LAYOUT_HEIGHT) * 100;
   const leftPercent = getIconLayoutLeftPercent(pillar.angle);
   const isUpper = Math.sin(pillar.angle) < 0;
-  const verticalOffset = isUpper ? "-58%" : "-42%";
+  const verticalOffset = isUpper ? "-108%" : "14%";
   const horizontalOffset =
     pillar.side === "left"
       ? `calc(-100% - ${ICON_BUBBLE_RADIUS + HORIZONTAL_CARD_GAP}px)`
@@ -103,6 +110,8 @@ function getPillarCardStyle(pillar: Pillar) {
   return {
     left: `${leftPercent}%`,
     top: `${topPercent}%`,
+    width: PILLAR_CARD_WIDTH,
+    height: PILLAR_CARD_HEIGHT,
     transform: `translate(${horizontalOffset}, calc(${verticalOffset} + ${ICON_CARD_GAP}px))`,
   };
 }
@@ -113,16 +122,30 @@ function PillarCard({
   description,
   titleColor,
   compact = false,
-}: Omit<Pillar, "side" | "icon" | "angle"> & { compact?: boolean }) {
+  fixedSize = false,
+}: Omit<Pillar, "side" | "icon" | "angle"> & {
+  compact?: boolean;
+  fixedSize?: boolean;
+}) {
   return (
     <article
       className={
         compact
-          ? "rounded-2xl border border-black/10 bg-white p-2.5"
-          : "max-w-[248px] rounded-2xl bg-white p-3 shadow-sm ring-1 ring-black/6 md:p-4 xl:max-w-[272px] 2xl:max-w-sm"
+          ? "flex h-full min-h-[190px] flex-col rounded-2xl border border-black/10 bg-white p-2.5"
+          : fixedSize
+            ? "flex size-full flex-col rounded-2xl bg-white p-3 shadow-sm ring-1 ring-black/6 md:p-4"
+            : "max-w-[248px] rounded-2xl bg-white p-3 shadow-sm ring-1 ring-black/6 md:p-4 xl:max-w-[272px] 2xl:max-w-sm"
       }
     >
-      <div className={compact ? "mb-1.5" : "mb-2"}>
+      <div
+        className={
+          compact
+            ? "mb-1.5 min-h-[52px] shrink-0"
+            : fixedSize
+              ? "mb-2 min-h-[76px] shrink-0"
+              : "mb-2"
+        }
+      >
         <h3
           className={
             compact
@@ -148,8 +171,10 @@ function PillarCard({
       <p
         className={
           compact
-            ? "text-[10px] leading-relaxed text-black/80 sm:text-[11px]"
-            : "text-sm leading-relaxed text-black md:text-[15px]"
+            ? "flex-1 text-[10px] leading-relaxed text-black/80 sm:text-[11px]"
+            : fixedSize
+              ? "flex-1 text-sm leading-relaxed text-black md:text-[15px]"
+              : "text-sm leading-relaxed text-black md:text-[15px]"
         }
       >
         {description}
@@ -183,19 +208,26 @@ function EcosystemDiagram({
       }
       style={
         showCards
-          ? { maxWidth: LAYOUT_MAX_WIDTH, height: DIAGRAM_HEIGHT }
+          ? {
+              maxWidth: LAYOUT_MAX_WIDTH,
+              height: LAYOUT_HEIGHT,
+            }
           : undefined
       }
     >
       <div
         className={
           showCards
-            ? "absolute left-1/2 top-0 -translate-x-1/2"
+            ? "absolute left-1/2 -translate-x-1/2"
             : "absolute inset-0"
         }
         style={
           showCards
-            ? { width: DIAGRAM_WIDTH, height: DIAGRAM_HEIGHT }
+            ? {
+                top: DIAGRAM_VERTICAL_PADDING,
+                width: DIAGRAM_WIDTH,
+                height: DIAGRAM_HEIGHT,
+              }
             : undefined
         }
       >
@@ -279,6 +311,7 @@ function EcosystemDiagram({
             />
           </div>
         )}
+
       </div>
 
       {showCards
@@ -288,7 +321,7 @@ function EcosystemDiagram({
               className="absolute"
               style={getPillarCardStyle(pillar)}
             >
-              <PillarCard {...pillar} />
+              <PillarCard {...pillar} fixedSize />
             </div>
           ))
         : null}
@@ -333,7 +366,7 @@ export function EcosystemSection() {
           </h2>
         </div>
 
-        <div className="flex flex-col items-center max-xl:hidden">
+        <div className="mt-10 flex flex-col items-center max-xl:hidden">
           <EcosystemDiagram
             showCards
             gradientId="ecosystem-ring-gradient-desktop"
@@ -345,7 +378,7 @@ export function EcosystemSection() {
 
         <div className="mt-10 flex flex-col items-center xl:hidden">
           <div className="relative w-full max-w-xl">
-            <div className="relative z-0 grid grid-cols-2 gap-2.5 sm:gap-3">
+            <div className="relative z-0 grid auto-rows-fr grid-cols-2 gap-2.5 sm:gap-3">
               {PILLARS.slice(0, 2).map((pillar) => (
                 <PillarCard key={pillar.title} compact {...pillar} />
               ))}
@@ -358,7 +391,7 @@ export function EcosystemSection() {
               />
             </div>
 
-            <div className="relative z-0 grid grid-cols-2 gap-2.5 sm:gap-3">
+            <div className="relative z-0 grid auto-rows-fr grid-cols-2 gap-2.5 sm:gap-3">
               {PILLARS.slice(2, 4).map((pillar) => (
                 <PillarCard key={pillar.title} compact {...pillar} />
               ))}

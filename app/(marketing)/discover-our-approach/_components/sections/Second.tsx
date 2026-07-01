@@ -14,7 +14,7 @@ const COPY = (
       long-term longevity without you even noticing.
     </span>
     <span>
-      ByBimari bridges this gap, combining ancient Indian wellness principles
+      ByeBimari bridges this gap, combining ancient Indian wellness principles
       with precision technology to help you listen to your body once again.
     </span>
   </>

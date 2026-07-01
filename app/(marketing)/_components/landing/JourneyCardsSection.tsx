@@ -94,7 +94,7 @@ const CARDS: JourneyCard[] = [
       button: "#0c2340",
       buttonHover: "#001a5c",
     },
-    arrow: false,
+    arrow: true,
   },
 ];
 

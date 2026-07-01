@@ -1,15 +1,14 @@
 import Image from "next/image";
 
-import {
-  Container,
-  GradientText,
-  SectionShell,
-} from "@/components/ui/SectionShell";
 import { Icon } from "@/components/ui/Icon";
+import {
+    Container,
+    GradientText,
+    SectionShell,
+} from "@/components/ui/SectionShell";
 import type { IconName } from "@/lib/icons";
 
 import { BlueButton } from "./BlueButton";
-import { OutlineButton } from "./OutlineButton";
 
 const FEATURE_BAR: { label: string; icon: IconName }[] = [
   { label: "Smart Tracking", icon: "scanner" },
@@ -58,7 +57,7 @@ export function HeroSection() {
           </div>
 
           <p className="max-w-lg text-base leading-relaxed text-muted-foreground">
-            ByBimari is a complete wellness ecosystem designed to help you
+            ByeBimari is a complete wellness ecosystem designed to help you
             restore balance and build a healthier life naturally.
           </p>
 

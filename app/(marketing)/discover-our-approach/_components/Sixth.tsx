@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { Check } from "lucide-react";
+import Image from "next/image";
 
 import { Container, SectionShell } from "@/components/ui/SectionShell";
 
@@ -35,7 +35,7 @@ const Sixth = () => {
                 actionable.
               </p>
               <p>
-                ByBimari builds a true wellness ecosystem by connecting your
+                ByeBimari builds a true wellness ecosystem by connecting your
                 sleep, stress, recovery, nutrition, and movement into one
                 unified view.
               </p>

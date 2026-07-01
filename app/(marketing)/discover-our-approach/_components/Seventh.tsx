@@ -9,7 +9,7 @@ const Seventh = () => {
             Ready to Reclaim Your Balance?
           </h2>
           <p className="max-w-2xl text-sm leading-relaxed text-white/90 md:text-base">
-            ByBimari is not just a ring. It is not just an app. It is your
+            ByeBimari is not just a ring. It is not just an app. It is your
             partner in natural health.
           </p>
           <button

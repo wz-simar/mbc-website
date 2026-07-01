@@ -17,7 +17,7 @@ const Third = () => {
 
         <div className="-mx-6 p-1 md:mx-0 md:p-0">
           <Image
-            alt="The 4 pillars of ByBimari wellness ecosystem"
+            alt="The 4 pillars of ByeBimari wellness ecosystem"
             src="/images/discover-our-approach-new/discover-new-third.png"
             width={1200}
             height={900}

@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Link from "next/link";
 
 import { FooterMaskedIcon } from "@/components/ui/FooterMaskedIcon";
 
@@ -9,7 +10,12 @@ import { FooterMaskedIcon } from "@/components/ui/FooterMaskedIcon";
 const BRAND_DESCRIPTION =
   "The proper Footer on proper time can preserve you protection. We assist you make sureeverybody forward.";
 
-const QUICK_LINKS = ["Home", "About us", "Services", "Product"] as const;
+const QUICK_LINKS = [
+  { label: "Home", href: "/" },
+  { label: "AI Insights", href: "/ai-insights" },
+  { label: "Discover our approach", href: "/discover-our-approach" },
+  { label: "Meet the SKY", href: "/meet-the-sky" },
+] as const;
 
 const BLOG_POSTS = [
   { title: "People Saying About Footer.", date: "8 Nov, 2021" },
@@ -67,15 +73,21 @@ function FooterColumnHeading({ children }: { children: ReactNode }) {
   return <p className={footerHeadingClass}>{children}</p>;
 }
 
-function FooterNavLink({ children }: { children: ReactNode }) {
+function FooterNavLink({
+  href,
+  children,
+}: {
+  href: string;
+  children: ReactNode;
+}) {
   return (
-    <a
-      href="#"
+    <Link
+      href={href}
       className={`${footerTextClass} inline-flex items-center gap-1.5 leading-[13px] hover:text-foreground/70`}
     >
       <FooterMaskedIcon src={FOOTER_ICONS.chevron} size={13} rotate />
       {children}
-    </a>
+    </Link>
   );
 }
 
@@ -185,8 +197,8 @@ function QuickLinksColumn() {
       <FooterColumnHeading>Quick link</FooterColumnHeading>
       <ul className="mt-5 flex flex-col gap-3">
         {QUICK_LINKS.map((link) => (
-          <li key={link}>
-            <FooterNavLink>{link}</FooterNavLink>
+          <li key={link.href}>
+            <FooterNavLink href={link.href}>{link.label}</FooterNavLink>
           </li>
         ))}
       </ul>
