@@ -33,7 +33,7 @@ const CARDS: JourneyCard[] = [
     title: "Discover SKY",
     description:
       "Our smart ring tracks what matters most so you can understand your body better.",
-    cta: "Discover",
+    cta: "Discover SKY",
     href: "/meet-the-sky",
     visual: "ring",
     theme: {
@@ -50,7 +50,7 @@ const CARDS: JourneyCard[] = [
     title: "AI Powered Insights",
     description:
       "AI turns your data into clear insights and personalized action plans.",
-    cta: "Discover",
+    cta: "See Insights",
     href: "/ai-insights",
     visual: "ai",
     theme: {
@@ -67,7 +67,7 @@ const CARDS: JourneyCard[] = [
     title: "Natural Health Experts",
     description:
       "Get Daily Guidance from our experienced natural health experts (Ayurvedic + Naturopathy + Yoga + Lifestyle & Wellness)",
-    cta: "Discover",
+    cta: "Meet Experts",
     href: "/health-experts",
     visual: "experts",
     theme: {
@@ -84,7 +84,7 @@ const CARDS: JourneyCard[] = [
     title: "Daily Guidance & Accountability",
     description:
       "Real transformation requires more than recommendations - it requires consistent support.",
-    cta: "Discover",
+    cta: "Our Approach",
     href: "/discover-our-approach",
     visual: "support",
     theme: {

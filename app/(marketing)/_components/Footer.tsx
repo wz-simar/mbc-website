@@ -38,7 +38,6 @@ const SOCIAL_LINKS = [
 
 const FOOTER_ICONS = {
   chevron: "/images/footer/mask-chevron.png",
-  wave: "/images/footer/mask-wave.png",
   location: "/images/footer/mask-location.png",
   email: "/images/footer/mask-email.png",
   phone: "/images/footer/mask-phone.png",
@@ -64,30 +63,8 @@ const contactRowClass = `text-[16px] leading-normal text-foreground inline-flex 
 // Primitives
 // ---------------------------------------------------------------------------
 
-function FooterWaveUnderline() {
-  return (
-    <div className="flex items-center">
-      <FooterMaskedIcon
-        src={FOOTER_ICONS.wave}
-        size={7}
-        style={{ width: 20, height: 7 }}
-      />
-      <FooterMaskedIcon
-        src={FOOTER_ICONS.wave}
-        size={7}
-        style={{ width: 20, height: 7 }}
-      />
-    </div>
-  );
-}
-
 function FooterColumnHeading({ children }: { children: ReactNode }) {
-  return (
-    <div className="flex flex-col gap-1">
-      <p className={footerHeadingClass}>{children}</p>
-      <FooterWaveUnderline />
-    </div>
-  );
+  return <p className={footerHeadingClass}>{children}</p>;
 }
 
 function FooterNavLink({ children }: { children: ReactNode }) {

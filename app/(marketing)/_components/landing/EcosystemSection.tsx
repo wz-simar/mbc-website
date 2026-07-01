@@ -119,7 +119,7 @@ function PillarCard({
       className={
         compact
           ? "rounded-2xl border border-black/10 bg-white p-2.5"
-          : "max-w-sm rounded-2xl bg-white p-3 shadow-sm ring-1 ring-black/6 md:p-4"
+          : "max-w-[248px] rounded-2xl bg-white p-3 shadow-sm ring-1 ring-black/6 md:p-4 xl:max-w-[272px] 2xl:max-w-sm"
       }
     >
       <div className={compact ? "mb-1.5" : "mb-2"}>
@@ -237,16 +237,16 @@ function EcosystemDiagram({
           />
         </svg>
 
-        <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center">
+        <div className="absolute left-1/2 top-1/2 z-20 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center">
           <div
             className={`rounded-full bg-white shadow-md ring-1 ring-black/6 ${centerPadding}`}
           >
             <Icon name="user-rounded" size={centerIconSize} />
           </div>
           {showCards ? (
-            <div className="flex items-center justify-center pt-5 text-sm font-bold">
+            <p className="mt-5 whitespace-nowrap text-center text-sm font-bold">
               Your Wellness Journey
-            </div>
+            </p>
           ) : null}
         </div>
 
@@ -256,7 +256,7 @@ function EcosystemDiagram({
           return (
             <div
               key={pillar.icon}
-              className={`absolute flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-md ring-1 ring-black/6 ${nodePadding}`}
+              className={`absolute z-10 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-md ring-1 ring-black/6 ${nodePadding}`}
               style={position}
             >
               <Icon name={pillar.icon} size={nodeIconSize} />
@@ -322,7 +322,7 @@ function MobileArrow() {
 
 export function EcosystemSection() {
   return (
-    <SectionShell id="ecosystem" className="full-bleed bg-white py-16 md:py-24">
+    <SectionShell id="ecosystem" className="full-bleed !overflow-visible bg-white py-16 md:py-24">
       <Container>
         <div className="flex flex-col items-center gap-4 text-center">
           <SectionBadge className="border-sky-primary/15 bg-[#eef6ff]">
@@ -333,7 +333,7 @@ export function EcosystemSection() {
           </h2>
         </div>
 
-        <div className="hidden lg:flex lg:flex-col lg:items-center">
+        <div className="flex flex-col items-center max-xl:hidden">
           <EcosystemDiagram
             showCards
             gradientId="ecosystem-ring-gradient-desktop"
@@ -343,7 +343,7 @@ export function EcosystemSection() {
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col items-center lg:hidden">
+        <div className="mt-10 flex flex-col items-center xl:hidden">
           <div className="relative w-full max-w-xl">
             <div className="relative z-0 grid grid-cols-2 gap-2.5 sm:gap-3">
               {PILLARS.slice(0, 2).map((pillar) => (
