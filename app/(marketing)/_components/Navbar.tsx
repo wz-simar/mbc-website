@@ -9,14 +9,7 @@ import {
   NavigationMenuItem,
 } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { Menu } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -59,7 +52,19 @@ const Navbar = () => {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+    setMobileOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMobileOpen(false);
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [mobileOpen]);
 
   return (
     <header className="w-full shrink-0 bg-background">
@@ -87,43 +92,61 @@ const Navbar = () => {
         </NavigationMenuList>
       </NavigationMenu>
 
-      <div className="flex items-center justify-end px-4 py-2 md:hidden">
-        <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-          <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" aria-label="Open menu">
-              <Menu />
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="right" className="w-[280px]">
-            <SheetHeader>
-              <SheetTitle className="font-bold uppercase tracking-wide">
-                Menu
-              </SheetTitle>
-            </SheetHeader>
-            <nav className="flex flex-col gap-1 px-4">
-              {NAV_ITEMS.map((item) => {
-                const isActive = isNavItemActive(item.href, pathname);
+      <div className="relative md:hidden">
+        <div className="flex items-center justify-end px-4 py-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-menu"
+            onClick={() => setMobileOpen((open) => !open)}
+          >
+            {mobileOpen ? <X /> : <Menu />}
+          </Button>
+        </div>
 
-                return (
-                  <Button
-                    key={item.id}
-                    asChild
-                    variant="ghost"
-                    className={cn(
-                      "justify-start font-bold uppercase tracking-wide",
-                      isActive && "bg-sky-primary/10 text-sky-primary"
-                    )}
-                    aria-current={isActive ? "page" : undefined}
-                  >
-                    <Link href={item.href} onClick={() => setMobileOpen(false)}>
-                      {item.label}
-                    </Link>
-                  </Button>
-                );
-              })}
+        {mobileOpen ? (
+          <>
+            <button
+              type="button"
+              aria-hidden
+              tabIndex={-1}
+              className="fixed inset-0 z-30 cursor-default bg-black/20 animate-in fade-in duration-200"
+              onClick={() => setMobileOpen(false)}
+            />
+            <nav
+              id="mobile-menu"
+              className="absolute inset-x-0 top-full z-40 origin-top border-b border-black/5 bg-background shadow-lg animate-in slide-in-from-top-2 fade-in duration-200"
+            >
+              <div className="flex flex-col gap-1 px-4 py-3">
+                {NAV_ITEMS.map((item) => {
+                  const isActive = isNavItemActive(item.href, pathname);
+
+                  return (
+                    <Button
+                      key={item.id}
+                      asChild
+                      variant="ghost"
+                      className={cn(
+                        "justify-start font-bold uppercase tracking-wide",
+                        isActive && "bg-sky-primary/10 text-sky-primary"
+                      )}
+                      aria-current={isActive ? "page" : undefined}
+                    >
+                      <Link
+                        href={item.href}
+                        onClick={() => setMobileOpen(false)}
+                      >
+                        {item.label}
+                      </Link>
+                    </Button>
+                  );
+                })}
+              </div>
             </nav>
-          </SheetContent>
-        </Sheet>
+          </>
+        ) : null}
       </div>
     </header>
   );

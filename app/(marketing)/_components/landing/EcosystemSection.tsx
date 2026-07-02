@@ -56,20 +56,20 @@ const PILLARS: Pillar[] = [
   },
 ];
 
-const DIAGRAM_SIZE = 420;
-const RING_RADIUS = 158;
-const DIAGRAM_HEIGHT = DIAGRAM_SIZE + 48;
-const DIAGRAM_VERTICAL_PADDING = 72;
+const DIAGRAM_SIZE = 380;
+const RING_RADIUS = 142;
+const DIAGRAM_HEIGHT = DIAGRAM_SIZE + 40;
+const DIAGRAM_VERTICAL_PADDING = 64;
 const CX = DIAGRAM_SIZE / 2;
 const CY = DIAGRAM_SIZE / 2;
 
-const DIAGRAM_WIDTH = 420;
-const LAYOUT_MAX_WIDTH = 960;
-const ICON_BUBBLE_RADIUS = 35;
-const HORIZONTAL_CARD_GAP = 36;
+const DIAGRAM_WIDTH = 380;
+const LAYOUT_MAX_WIDTH = 1040;
+const ICON_BUBBLE_RADIUS = 32;
+const HORIZONTAL_CARD_GAP = 20;
 const ICON_CARD_GAP = 4;
-const PILLAR_CARD_WIDTH = 272;
-const PILLAR_CARD_HEIGHT = 236;
+const PILLAR_CARD_WIDTH = 324;
+const PILLAR_CARD_HEIGHT = 188;
 const LAYOUT_HEIGHT = DIAGRAM_HEIGHT + DIAGRAM_VERTICAL_PADDING * 2;
 
 function getRingNodeTopPercent(angle: number) {
@@ -101,7 +101,7 @@ function getPillarCardStyle(pillar: Pillar) {
   const topPercent = (anchorY / LAYOUT_HEIGHT) * 100;
   const leftPercent = getIconLayoutLeftPercent(pillar.angle);
   const isUpper = Math.sin(pillar.angle) < 0;
-  const verticalOffset = isUpper ? "-108%" : "14%";
+  const verticalOffset = isUpper ? "-100%" : "1%";
   const horizontalOffset =
     pillar.side === "left"
       ? `calc(-100% - ${ICON_BUBBLE_RADIUS + HORIZONTAL_CARD_GAP}px)`
@@ -133,7 +133,7 @@ function PillarCard({
         compact
           ? "flex h-full min-h-[190px] flex-col rounded-2xl border border-black/10 bg-white p-2.5"
           : fixedSize
-            ? "flex size-full flex-col rounded-2xl bg-white p-3 shadow-sm ring-1 ring-black/6 md:p-4"
+            ? "flex size-full flex-col rounded-2xl bg-white px-5 py-4 shadow-sm ring-1 ring-black/6"
             : "max-w-[248px] rounded-2xl bg-white p-3 shadow-sm ring-1 ring-black/6 md:p-4 xl:max-w-[272px] 2xl:max-w-sm"
       }
     >
@@ -142,7 +142,7 @@ function PillarCard({
           compact
             ? "mb-1.5 min-h-[52px] shrink-0"
             : fixedSize
-              ? "mb-2 min-h-[76px] shrink-0"
+              ? "mb-1.5 shrink-0"
               : "mb-2"
         }
       >
@@ -150,7 +150,9 @@ function PillarCard({
           className={
             compact
               ? "text-xs font-bold leading-snug sm:text-sm"
-              : "text-lg font-bold leading-snug md:text-xl"
+              : fixedSize
+                ? "text-base font-bold leading-snug lg:text-lg"
+                : "text-lg font-bold leading-snug md:text-xl"
           }
           style={{ color: titleColor }}
         >
@@ -161,7 +163,9 @@ function PillarCard({
             className={
               compact
                 ? "mt-0.5 text-[10px] font-semibold leading-snug text-emerald-600 sm:text-[11px]"
-                : "font-bold"
+                : fixedSize
+                  ? "mt-0.5 text-[11px] font-semibold leading-snug text-emerald-600"
+                  : "font-bold"
             }
           >
             {subtitle}
@@ -173,7 +177,7 @@ function PillarCard({
           compact
             ? "flex-1 text-[10px] leading-relaxed text-black/80 sm:text-[11px]"
             : fixedSize
-              ? "flex-1 text-sm leading-relaxed text-black md:text-[15px]"
+              ? "text-[13px] leading-relaxed text-black/80"
               : "text-sm leading-relaxed text-black md:text-[15px]"
         }
       >
@@ -192,12 +196,12 @@ function EcosystemDiagram({
   hideArrow?: boolean;
   gradientId?: string;
 }) {
-  const centerIconSize = showCards ? 52 : 40;
-  const nodeIconSize = showCards ? 40 : 30;
+  const centerIconSize = showCards ? 46 : 40;
+  const nodeIconSize = showCards ? 36 : 30;
   // const nodePadding = showCards ? "p-5" : "p-3";
-  const nodePadding = showCards ? "size-24" : "size-16";
-  const centerPadding = showCards ? "p-5" : "p-3.5";
-  const arrowSize = showCards ? 40 : 28;
+  const nodePadding = showCards ? "size-20" : "size-16";
+  const centerPadding = showCards ? "p-4" : "p-3.5";
+  const arrowSize = showCards ? 36 : 28;
 
   return (
     <div
@@ -355,9 +359,9 @@ function MobileArrow() {
 
 export function EcosystemSection() {
   return (
-    <SectionShell id="ecosystem" className="full-bleed !overflow-visible bg-white py-16 md:py-24">
+    <SectionShell id="ecosystem" className="full-bleed !overflow-visible bg-white py-10 md:py-12">
       <Container>
-        <div className="flex flex-col items-center gap-4 text-center">
+        <div className="flex flex-col items-center gap-3 text-center">
           <SectionBadge className="border-sky-primary/15 bg-[#eef6ff]">
             How ByeBimari Works
           </SectionBadge>
@@ -366,7 +370,7 @@ export function EcosystemSection() {
           </h2>
         </div>
 
-        <div className="mt-10 flex flex-col items-center max-xl:hidden">
+        <div className="mt-4 flex flex-col items-center max-xl:hidden">
           <EcosystemDiagram
             showCards
             gradientId="ecosystem-ring-gradient-desktop"

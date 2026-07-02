@@ -32,7 +32,7 @@ export default function RootLayout ({
     <html
       lang='en'
       className={cn(
-        'h-full',
+        'h-full overflow-x-hidden',
         'antialiased',
         geistSans.variable,
         geistMono.variable,
@@ -40,7 +40,7 @@ export default function RootLayout ({
         nunitoSans.variable
       )}
     >
-      <body className='min-h-full flex flex-col'>
+      <body className='min-h-full flex flex-col overflow-x-hidden'>
         <Navbar />
         <main className='flex-1 container mx-auto'>{children}</main>
         <Footer />
